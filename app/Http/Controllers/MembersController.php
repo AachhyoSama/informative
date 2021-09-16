@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class MembersController extends Controller
 {
+    protected $member;
+    public function __construct(Members $member)
+    {
+        $this->member = $member;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $members = Members::latest()->paginate(10);
+        $members = Members::orderBy('in_order', 'asc')->paginate(10);
         return view('backend.members.index', compact('members'));
     }
 
@@ -41,11 +46,13 @@ class MembersController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $member_count = Members::orderBy('in_order', 'desc')->first();
+        $member_order = $member_count->in_order + 1;
         $this->validate($request, [
             'profile_photo' => 'required|mimes:png,jpg,jpeg',
             'name'    => 'required|array',
             'name.*'  => 'required|string',
-            'email' => 'required|email',
+            'email' => '',
             'contact_no'    => 'required|array',
             'contact_no.*'  => 'required|string',
             'address'    => 'required|array',
@@ -54,8 +61,8 @@ class MembersController extends Controller
             'position.*'  => 'required|string',
             'member_category' => '',
             'commitee_category' => '',
-            'details'    => 'required|array',
-            'details.*'  => 'required|string',
+            'details'    => '',
+            'details.*'  => '',
 
             'facebook' => '',
             'whatsapp' => '',
@@ -87,6 +94,8 @@ class MembersController extends Controller
             'youtube' => $request['youtube'],
             'twitter' => $request['twitter'],
             'linkedin' => $request['linkedin'],
+
+            'in_order' => $member_order,
         ]);
 
         $new_member->save();
@@ -133,7 +142,7 @@ class MembersController extends Controller
             'profile_photo' => 'mimes:png,jpg,jpeg',
             'name'    => 'required|array',
             'name.*'  => 'required|string',
-            'email' => 'required|email',
+            'email' => '',
             'contact_no'    => 'required|array',
             'contact_no.*'  => 'required|string',
             'address'    => 'required|array',
@@ -142,8 +151,8 @@ class MembersController extends Controller
             'position.*'  => 'required|string',
             'member_category' => '',
             'commitee_category' => '',
-            'details'    => 'required|array',
-            'details.*'  => 'required|string',
+            'details'    => '',
+            'details.*'  => '',
 
             'facebook' => '',
             'whatsapp' => '',
@@ -198,5 +207,22 @@ class MembersController extends Controller
         $existing_member->delete();
 
         return redirect()->route('member.index')->with('success', 'Member information deleted successfully.');
+    }
+
+    public function updateMemberOrder(Request $request)
+    {
+        parse_str($request->sort, $arr);
+        $order = 1;
+        if (isset($arr['menuItem'])) {
+            foreach ($arr['menuItem'] as $key => $value) {  //id //parent_id
+                $this->member->where('id', $key)
+                    ->update([
+                        'in_order' => $order,
+                    ]);
+                $order++;
+            }
+        }
+
+        return true;
     }
 }

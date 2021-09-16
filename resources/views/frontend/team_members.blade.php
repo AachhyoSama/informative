@@ -67,7 +67,13 @@
                                                     </li>
                                                     <li>
                                                         <b>{{ __('index.contact.email') }}:</b>
-                                                        <span>{{ $member->email }}</span>
+                                                        <span>
+                                                            @if ($member->email == null)
+                                                                -
+                                                            @else
+                                                                {{ $member->email }}
+                                                            @endif
+                                                        </span>
                                                     </li>
                                                 </ul>
                                                 <p>

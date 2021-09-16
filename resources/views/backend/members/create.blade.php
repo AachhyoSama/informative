@@ -151,7 +151,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="email">Member Email:</label>
+                                                    <label for="email">Member Email (Optional):</label>
                                                     <input type="text" class="form-control" name="email" placeholder="Member email..">
                                                     <p class="text-danger">
                                                         {{ $errors->first('email') }}
@@ -193,7 +193,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="details">Details (In English):</label>
-                                                    <textarea name="details[en]" class="form-control" cols="30" rows="5" required placeholder="Details....."></textarea>
+                                                    <textarea name="details[en]" class="form-control" cols="30" rows="5" placeholder="Details....."></textarea>
                                                     <p class="text-center">
                                                         {{ $errors->first('details') }}
                                                     </p>
@@ -203,7 +203,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="details">Details (In Nepali):</label>
-                                                    <textarea name="details[np]" class="form-control" cols="30" rows="5" required placeholder="Details....."></textarea>
+                                                    <textarea name="details[np]" class="form-control" cols="30" rows="5" placeholder="Details....."></textarea>
                                                     <p class="text-center">
                                                         {{ $errors->first('details') }}
                                                     </p>

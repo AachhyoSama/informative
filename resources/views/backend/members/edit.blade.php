@@ -152,7 +152,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="email">Member Email:</label>
+                                                    <label for="email">Member Email (Optional):</label>
                                                     <input type="text" value="{{ $existing_member->email }}" class="form-control" name="email" placeholder="Member email..">
                                                     <p class="text-danger">
                                                         {{ $errors->first('email') }}

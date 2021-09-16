@@ -1,6 +1,38 @@
 @extends('backend.layouts.app')
 @push('styles')
+    <style>
+        ol {
+            list-style-type: none;
+        }
 
+        .menu-handle {
+            display: block;
+            margin-bottom: 5px;
+            padding: 6px 4px 6px 12px;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            background: #fafafa;
+            background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
+            background: -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
+            background: linear-gradient(top, #fafafa 0%, #eee 100%);
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            cursor: move;
+        }
+
+        .menu-handle:hover {
+            background: #fff;
+        }
+
+        .placeholder {
+            margin-bottom: 10px;
+            background: #D7F8FD
+        }
+
+    </style>
 @endpush
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -48,7 +80,68 @@
                     @endif
                     <div class="row">
                         <div class="col-md-12">
+
+
+
                             <div class="card">
+                                <div class="card-body card-format">
+                                    @if ($members->count() > 0)
+                                        <ol class="sortable">
+                                            @foreach ($members as $member)
+                                                    <li id="menuItem_{{ $member->id }}">
+                                                        <div class="menu-handle d-flex justify-content-between">
+                                                            <span>
+                                                                {{ $member->name['en'] }} ({{ $member->position['en'] }})
+                                                            </span>
+
+                                                            <div class="menu-options btn-group">
+                                                                <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deletionservice{{ $member->id }}" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                                <!-- Modal -->
+                                                                    <div class="modal fade text-left" id="deletionservice{{ $member->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                                </div>
+                                                                                <div class="modal-body text-center">
+                                                                                    <form action="{{ route('member.destroy', $member->id) }}" method="POST" style="display:inline-block;">
+                                                                                        @csrf
+                                                                                        @method("POST")
+                                                                                        <label for="reason">Are you sure you want to delete??</label><br>
+                                                                                        <input type="hidden" name="_method" value="DELETE" />
+                                                                                        <button type="submit" class="btn btn-danger" title="Delete">Confirm Delete</button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ";
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                        {{-- {{ get_nested_menu($item->id) }} --}}
+                                                        {{-- @include('admin.menu.nested',['data'=>$item->child_menu]) --}}
+                                                    </li>
+                                            @endforeach
+                                            <div class="form-group mt-4">
+                                                <button type="button" class="btn btn-success btn-sm btn-flat" id="serialize"><i
+                                                        class="fa fa-save"></i>
+                                                    Update Order
+                                                </button>
+                                            </div>
+                                        </ol>
+                                    @else
+                                        <p class="text-center">Member Not Found.</p>
+                                    @endif
+                                </div>
+                            </div>
+
+
+
+                            {{-- <div class="card">
                                 <div class="card-body table-responsive">
                                     <table class="table table-bordered text-center">
                                         <thead class="thead-light">
@@ -88,7 +181,11 @@
                                                             ({{ $member->position['np'] }})
                                                         </td>
                                                         <td>
+                                                            @if ($member->email == null)
+                                                                Not Provided
+                                                            @else
                                                             {{ $member->email }}
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             {{ $member->contact_no['en'] }} <br>
@@ -155,7 +252,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -166,5 +263,54 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('backend/plugins/sortablejs/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/sortablejs/jquery.mjs.nestedSortable.js') }}"></script>
+    <script src="{{ asset('backend/plugins/toastrjs/toastr.min.js') }}"></script>
+    <script>
 
+        $('ol.sortable').nestedSortable({
+            forcePlaceholderSize: true,
+            placeholder: 'placeholder',
+            handle: 'div.menu-handle',
+            helper: 'clone',
+            items: 'li',
+            opacity: .6,
+            maxLevels: 1,
+            revert: 250,
+            tabSize: 25,
+            tolerance: 'pointer',
+            toleranceElement: '> div',
+        });
+
+        $("#serialize").click(function(e) {
+            e.preventDefault();
+            $(this).prop("disabled", true);
+            $(this).html(
+                    `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Updating...`
+                );
+            var serialized = $('ol.sortable').nestedSortable('serialize');
+            // console.log(serialized);
+            $.ajax({
+                url: "{{ route('updateMemberOrder') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    sort: serialized
+                },
+                success: function(res) {
+                    toastr.options.closeButton = true
+                    toastr.success('Member Order Successfuly', "Success !");
+                    $('#serialize').prop("disabled", false);
+                    $('#serialize').html(`<i class="fa fa-save"></i> Update Member`);
+                }
+            });
+        });
+
+        function show_alert() {
+            if (!confirm("Do you really want to do this?")) {
+                return false;
+            }
+            this.form.submit();
+        }
+    </script>
 @endpush

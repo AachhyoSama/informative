@@ -91,13 +91,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('commiteeCategory', [MembercategoryController::class, 'commiteeCategory'])->name('commiteeCategory')->middleware(['auth:sanctum', 'verified']);
 });
 
+Route::post('updateMenu', [MenuController::class, 'updateMenuOrder'])->name('updateMenuOrder');
+Route::post('updateMember', [MembersController::class, 'updateMemberOrder'])->name('updateMemberOrder');
+
 // Frontend
 
 Route::middleware(['localization'])->group(function () {
     Route::get('/lang/{locale}', [LanguageController::class, 'lang'])->name('lang');
     Route::get('/', [FrontController::class, 'index'])->name('index');
     Route::get('{slug}', [FrontController::class, 'pageSlug'])->name('pageSlug');
-    Route::post('updateMenu', [MenuController::class, 'updateMenuOrder'])->name('updateMenuOrder');
 });
 
 

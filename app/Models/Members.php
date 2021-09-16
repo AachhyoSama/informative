@@ -24,7 +24,9 @@ class Members extends Model
         'whatsapp',
         'youtube',
         'twitter',
-        'linkedin'
+        'linkedin',
+
+        'in_order'
     ];
 
     public function memberCategory()

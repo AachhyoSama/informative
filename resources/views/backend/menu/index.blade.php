@@ -1,39 +1,39 @@
 @extends('backend.layouts.app')
 @push('styles')
-        <style>
-            ol {
-                list-style-type: none;
-            }
+    <style>
+        ol {
+            list-style-type: none;
+        }
 
-            .menu-handle {
-                display: block;
-                margin-bottom: 5px;
-                padding: 6px 4px 6px 12px;
-                color: #333;
-                font-weight: bold;
-                border: 1px solid #ccc;
-                background: #fafafa;
-                background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
-                background: -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
-                background: linear-gradient(top, #fafafa 0%, #eee 100%);
-                -webkit-border-radius: 3px;
-                border-radius: 3px;
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                cursor: move;
-            }
+        .menu-handle {
+            display: block;
+            margin-bottom: 5px;
+            padding: 6px 4px 6px 12px;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            background: #fafafa;
+            background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%);
+            background: -moz-linear-gradient(top, #fafafa 0%, #eee 100%);
+            background: linear-gradient(top, #fafafa 0%, #eee 100%);
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            cursor: move;
+        }
 
-            .menu-handle:hover {
-                background: #fff;
-            }
+        .menu-handle:hover {
+            background: #fff;
+        }
 
-            .placeholder {
-                margin-bottom: 10px;
-                background: #D7F8FD
-            }
+        .placeholder {
+            margin-bottom: 10px;
+            background: #D7F8FD
+        }
 
-        </style>
-    @endpush
+    </style>
+@endpush
 @section('content')
     <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -309,54 +309,54 @@
     <!-- /.content-wrapper -->
 @endsection
 @push('scripts')
-        <script src="{{ asset('backend/plugins/sortablejs/jquery-ui.min.js') }}"></script>
-        <script src="{{ asset('backend/plugins/sortablejs/jquery.mjs.nestedSortable.js') }}"></script>
-        <script src="{{ asset('backend/plugins/toastrjs/toastr.min.js') }}"></script>
-        <script>
+    <script src="{{ asset('backend/plugins/sortablejs/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/sortablejs/jquery.mjs.nestedSortable.js') }}"></script>
+    <script src="{{ asset('backend/plugins/toastrjs/toastr.min.js') }}"></script>
+    <script>
 
-            $('ol.sortable').nestedSortable({
-                forcePlaceholderSize: true,
-                placeholder: 'placeholder',
-                handle: 'div.menu-handle',
-                helper: 'clone',
-                items: 'li',
-                opacity: .6,
-                maxLevels: 1,
-                revert: 250,
-                tabSize: 25,
-                tolerance: 'pointer',
-                toleranceElement: '> div',
-            });
+        $('ol.sortable').nestedSortable({
+            forcePlaceholderSize: true,
+            placeholder: 'placeholder',
+            handle: 'div.menu-handle',
+            helper: 'clone',
+            items: 'li',
+            opacity: .6,
+            maxLevels: 1,
+            revert: 250,
+            tabSize: 25,
+            tolerance: 'pointer',
+            toleranceElement: '> div',
+        });
 
-            $("#serialize").click(function(e) {
-                e.preventDefault();
-                $(this).prop("disabled", true);
-                $(this).html(
-                        `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Updating...`
-                    );
-                var serialized = $('ol.sortable').nestedSortable('serialize');
-                // console.log(serialized);
-                $.ajax({
-                    url: "{{ route('updateMenuOrder') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        sort: serialized
-                    },
-                    success: function(res) {
-                        toastr.options.closeButton = true
-                        toastr.success('Menu Order Successfuly', "Success !");
-                        $('#serialize').prop("disabled", false);
-                        $('#serialize').html(`<i class="fa fa-save"></i> Update Menu`);
-                    }
-                });
-            });
-
-            function show_alert() {
-                if (!confirm("Do you really want to do this?")) {
-                    return false;
+        $("#serialize").click(function(e) {
+            e.preventDefault();
+            $(this).prop("disabled", true);
+            $(this).html(
+                    `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Updating...`
+                );
+            var serialized = $('ol.sortable').nestedSortable('serialize');
+            // console.log(serialized);
+            $.ajax({
+                url: "{{ route('updateMenuOrder') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    sort: serialized
+                },
+                success: function(res) {
+                    toastr.options.closeButton = true
+                    toastr.success('Menu Order Successfuly', "Success !");
+                    $('#serialize').prop("disabled", false);
+                    $('#serialize').html(`<i class="fa fa-save"></i> Update Menu`);
                 }
-                this.form.submit();
+            });
+        });
+
+        function show_alert() {
+            if (!confirm("Do you really want to do this?")) {
+                return false;
             }
-        </script>
-    @endpush
+            this.form.submit();
+        }
+    </script>
+@endpush

@@ -103,7 +103,7 @@ class FrontController extends Controller
             {
                 if($member_category->member_commities == 0)
                 {
-                    $members = Members::latest()->where('member_id', $member_category->id)->get();
+                    $members = Members::orderBy('in_order', 'asc')->where('member_id', $member_category->id)->get();
                     return view('frontend.team_members', compact('members', 'member_category'));
                 }
                 elseif($member_category->member_commities == 1)
