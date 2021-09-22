@@ -16,7 +16,12 @@ class Menu extends Model
         'position',
         'main_child',
         'parent_id',
-        'header_footer'
+        'header_footer',
+
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'og_image'
     ];
 
     public function category()

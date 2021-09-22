@@ -13,7 +13,12 @@ class Membercategory extends Model
         'category_name',
         'slug',
         'member_commities',
-        'is_active'
+        'is_active',
+
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'og_image'
     ];
 
     protected $casts = [

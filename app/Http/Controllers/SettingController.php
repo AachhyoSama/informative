@@ -131,6 +131,7 @@ class SettingController extends Controller
                 'local_address'    => 'required|array',
                 'local_address.*'  => 'required|string',
                 'company_logo' => 'mimes:jpg,png,jpeg',
+                'footer_logo' => 'mimes:jpg,png,jpeg',
                 'company_favicon' => 'mimes:jpg,png,jpeg',
                 'projects_completed'    => 'required|array',
                 'projects_completed.*'  => 'required|string',
@@ -138,6 +139,11 @@ class SettingController extends Controller
                 'clients_satisfied.*'  => 'required|string',
                 'award_winner'    => 'required|array',
                 'award_winner.*'  => 'required|string',
+
+                'meta_title'  => '',
+                'meta_keywords'  => '',
+                'meta_description'  => '',
+                'og_image' => 'mimes:png,jpg,jpeg',
             ]);
             // dd($request['projects_completed']);
 
@@ -148,6 +154,24 @@ class SettingController extends Controller
                 $company_logo = $image->store('company_logo', 'uploads');
             }else {
                 $company_logo = $setting->company_logo;
+            }
+
+            $footer_logo = '';
+            if($request->hasfile('footer_logo'))
+            {
+                $image = $request->file('footer_logo');
+                $footer_logo = $image->store('footer_logo', 'uploads');
+            }else {
+                $footer_logo = $setting->footer_logo;
+            }
+
+            $og_image = '';
+            if($request->hasfile('og_image'))
+            {
+                $image = $request->file('og_image');
+                $og_image = $image->store('og_image', 'uploads');
+            }else {
+                $og_image = $setting->og_image;
             }
 
             $company_favicon = '';
@@ -168,10 +192,16 @@ class SettingController extends Controller
                 'district_no' => $request['district'],
                 'local_address' => $request['local_address'],
                 'company_logo' => $company_logo,
+                'footer_logo' => $footer_logo,
                 'company_favicon' => $company_favicon,
                 'projects_completed' => $request['projects_completed'],
                 'clients_satisfied' => $request['clients_satisfied'],
                 'award_winner' => $request['award_winner'],
+
+                'meta_title' => $request['meta_title'],
+                'meta_keywords' => $request['meta_keywords'],
+                'meta_description' => $request['meta_description'],
+                'og_image' => $og_image,
             ]);
         }
         elseif (isset($_POST['socialMedia']))

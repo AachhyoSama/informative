@@ -50,7 +50,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{ route('menu.update', $menu->id) }}" method="POST">
+                                    <form action="{{ route('menu.update', $menu->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method("PUT")
                                         <div class="row">
@@ -133,6 +133,54 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-12 text-center">
+                                                <hr>
+                                                <h3>Meta Information</h3>
+                                                <hr>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="meta_title">Meta Title(Optional): </label>
+                                                    <input type="text" class="form-control" name="meta_title" placeholder="Meta Title for SEO" value="{{ $menu->meta_title }}">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('meta_title') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="meta_keywords">Meta Keywords(Optional): </label>
+                                                    <input type="text" class="form-control" name="meta_keywords" placeholder="Meta Keywords for SEO" value="{{ $menu->meta_keywords }}">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('meta_keywords') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="meta-description">Meta Description (optional):</label>
+                                                    <textarea name="meta_description" cols="30" rows="5" class="form-control" placeholder="Meta description..">{{ $menu->meta_description }}</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="og_image">OG Image (1200 X 600): </label>
+                                                    <input type="file" class="form-control" name="og_image" onchange="loadOg(event)">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('og_image') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="">Current Og:</label> <br>
+                                                <img id="current_og" style="height: 100px;" src="{{ Storage::disk('uploads')->url($menu->og_image ? $menu->og_image : 'noimage.jpg') }}">
+                                            </div>
+
                                             <div class="col-md-12 mt-4">
                                                 <button type="submit" class="btn btn-success">Submit</button>
                                             </div>
@@ -178,5 +226,15 @@
             }
         })
     });
+</script>
+
+<script>
+    var loadOg = function(event) {
+        var output = document.getElementById('current_og');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src)
+        }
+    };
 </script>
 @endpush

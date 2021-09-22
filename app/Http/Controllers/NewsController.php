@@ -48,6 +48,10 @@ class NewsController extends Controller
             'written_date' => 'required',
             'content'    => 'required|array',
             'content.*'  => 'required|string',
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $cover_image = '';
@@ -55,6 +59,13 @@ class NewsController extends Controller
         {
             $image = $request->file('cover_image');
             $cover_image = $image->store('cover_image', 'uploads');
+        }
+
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
         }
 
         $news = News::create([
@@ -66,7 +77,12 @@ class NewsController extends Controller
             'written_on' => $request['written_date'],
             'author' => $request['author'],
             'view_count' => 0,
-            'news_blogs' => 0
+            'news_blogs' => 0,
+
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         $news->save();
@@ -118,6 +134,10 @@ class NewsController extends Controller
             'written_date' => 'required',
             'content'    => 'required|array',
             'content.*'  => 'required|string',
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $cover_image = '';
@@ -132,6 +152,17 @@ class NewsController extends Controller
             $cover_image = $existing_news->cover_image;
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+        else
+        {
+            $og_image = $existing_news->og_image;
+        }
+
         $existing_news->update([
             'cover_image' => $cover_image,
             'title' => $request['title'],
@@ -141,7 +172,12 @@ class NewsController extends Controller
             'written_on' => $request['written_date'],
             'author' => $request['author'],
             'view_count' => 0,
-            'news_blogs' => 0
+            'news_blogs' => 0,
+
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         return redirect()->route('news.index')->with('success', 'News is updated successfully.');

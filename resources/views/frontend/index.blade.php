@@ -1,4 +1,7 @@
 @extends('frontend.layouts.app')
+@section('meta')
+    @include('frontend.includes.meta')
+@endsection
 
 @section('content')
     @if ($advertisement->is_show == 1)

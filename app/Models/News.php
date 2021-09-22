@@ -18,7 +18,11 @@ class News extends Model
         'written_on',
         'author',
         'view_count',
-        'news_blogs'
+        'news_blogs',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'og_image'
     ];
 
     protected $casts = [

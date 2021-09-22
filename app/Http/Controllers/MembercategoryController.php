@@ -48,7 +48,11 @@ class MembercategoryController extends Controller
             'category_name'    => 'required|array',
             'category_name.*'  => 'required|string',
             'member_commities' => 'required',
-            'is_active' => ''
+            'is_active' => '',
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $active = 0;
@@ -57,11 +61,22 @@ class MembercategoryController extends Controller
             $active = 1;
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+
         $new_category = Membercategory::create([
             'category_name' => $request['category_name'],
             'slug' => Str::slug($request->category_name['en']),
             'member_commities' => $request['member_commities'],
-            'is_active' => $active
+            'is_active' => $active,
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
         $new_category->save();
         if ($request['member_commities'] == 0)
@@ -106,12 +121,18 @@ class MembercategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $memberCategory = Membercategory::findorFail($id);
         $this->validate($request, [
             'category_name'    => 'required|array',
             'category_name.*'  => 'required|string',
             'member_commities' => 'required',
-            'is_active' => ''
+            'is_active' => '',
+
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $active = 0;
@@ -120,11 +141,26 @@ class MembercategoryController extends Controller
             $active = 1;
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+        else
+        {
+            $og_image = $memberCategory->og_image;
+        }
+
         $memberCategory->update([
             'category_name' => $request['category_name'],
             'slug' => Str::slug($request->category_name['en']),
             'member_commities' => $request['member_commities'],
-            'is_active' => $active
+            'is_active' => $active,
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         if ($request['member_commities'] == 0)

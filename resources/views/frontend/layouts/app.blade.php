@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+        @yield('meta')
+
         <link rel="icon" type="" href="{{ asset('frontend/img/bg.jpg') }}">
         <link rel="stylesheet" href="{{ asset('frontend/css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">

@@ -18,6 +18,11 @@ class CreateAlbumsTable extends Migration
             $table->string('album_cover');
             $table->string('album_title');
             $table->string('title_slug');
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->longText('meta_description')->nullable();
+            $table->string('og_image')->nullable();
             $table->timestamps();
         });
     }

@@ -1,4 +1,7 @@
 @extends('frontend.layouts.app')
+@section('meta')
+    @include('frontend.includes.meta')
+@endsection
 
 @section('content')
     <!-- Contact Us Page -->
@@ -92,7 +95,7 @@
                                 <i class="flaticon-phone-call"></i>
                                 <div class="contact-content">
                                     <span>{{ __('index.contact.callUs') }}</span>
-                                    <p>{{ __('index.contact.telecode') }} {{ getLangValue($setting->contact_no) }}</p>
+                                    <p> {{ getLangValue($setting->contact_no) }}</p>
                                 </div>
                             </li>
                             <li>

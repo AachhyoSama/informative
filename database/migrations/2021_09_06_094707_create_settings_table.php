@@ -22,6 +22,7 @@ class CreateSettingsTable extends Migration
             $table->integer('district_no');
             $table->string('local_address');
             $table->string('company_logo');
+            $table->string('footer_logo');
             $table->string('company_favicon');
             $table->string('pan_vat');
 
@@ -42,6 +43,11 @@ class CreateSettingsTable extends Migration
             $table->string('closing_time')->nullable();
 
             $table->longText('map_url')->nullable();
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->longText('meta_description')->nullable();
+            $table->string('og_image')->nullable();
 
             $table->timestamps();
         });

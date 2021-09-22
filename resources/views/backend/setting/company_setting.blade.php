@@ -74,7 +74,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="contact_no">Company contact no. (+977 / +01) (In English):</label>
+                                                    <label for="contact_no">Company contact no. (In English):</label>
                                                     <input type="text" class="form-control" name="contact_no[en]" value="{{ $setting->contact_no['en'] }}">
                                                     <p class="text-danger">
                                                         {{ $errors->first('contact_no') }}
@@ -84,7 +84,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="contact_no">Company contact no. (+977 / +01) (In Nepali):</label>
+                                                    <label for="contact_no">Company contact no. (In Nepali):</label>
                                                     <input type="text" class="form-control" name="contact_no[np]" value="{{ $setting->contact_no['np'] }}">
                                                     <p class="text-danger">
                                                         {{ $errors->first('contact_no') }}
@@ -173,6 +173,18 @@
                                                 <img id="company_logo_output" style="height: 100px;" src="{{ Storage::disk('uploads')->url($setting->company_logo) }}">
                                             </div>
 
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="footer_logo">Footer Logo:</label>
+                                                    <input type="file" class="form-control" name="footer_logo" id="footer_logo" onchange="loadFooterLogo(event)">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="">Recent Footer Logo:</label> <br>
+                                                <img id="footer_logo_output" style="height: 100px;" src="{{ Storage::disk('uploads')->url($setting->footer_logo) }}">
+                                            </div>
+
                                             <div class="col-md-6 mt-2">
                                                 <div class="form-group">
                                                     <label for="company_favicon">Company Favicon:</label>
@@ -251,6 +263,54 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-12 text-center">
+                                                <hr>
+                                                <h3>Meta Information</h3>
+                                                <hr>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="meta_title">Meta Title(Optional): </label>
+                                                    <input type="text" class="form-control" name="meta_title" placeholder="Meta Title for SEO" value="{{ $setting->meta_title }}">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('meta_title') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="meta_keywords">Meta Keywords(Optional): </label>
+                                                    <input type="text" class="form-control" name="meta_keywords" placeholder="Meta Keywords for SEO" value="{{ $setting->meta_keywords }}">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('meta_keywords') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="meta-description">Meta Description (optional):</label>
+                                                    <textarea name="meta_description" cols="30" rows="5" class="form-control" placeholder="Meta description..">{{ $setting->meta_description }}</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="og_image">OG Image (1200 X 600): </label>
+                                                    <input type="file" class="form-control" name="og_image" onchange="loadOg(event)">
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('og_image') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="">Current Og:</label> <br>
+                                                <img id="current_og" style="height: 100px;" src="{{ Storage::disk('uploads')->url($setting->og_image ? $setting->og_image : 'noimage.jpg') }}">
+                                            </div>
+
                                             <div class="col-md-12 text-center mt-4">
                                                 <button type="submit" class="btn btn-success" name="companySetting">Submit</button>
                                             </div>
@@ -307,6 +367,16 @@
     </script>
 
     <script>
+        var loadFooterLogo = function(event) {
+            var output = document.getElementById('footer_logo_output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src)
+            }
+        };
+    </script>
+
+    <script>
         var loadFavicon = function(event) {
             var output = document.getElementById('company_favicon_output');
             output.src = URL.createObjectURL(event.target.files[0]);
@@ -315,4 +385,14 @@
             }
         };
     </script>
+
+<script>
+    var loadOg = function(event) {
+        var output = document.getElementById('current_og');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src)
+        }
+    };
+</script>
 @endpush

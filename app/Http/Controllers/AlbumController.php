@@ -44,7 +44,11 @@ class AlbumController extends Controller
             'album_title'    => 'required|array',
             'album_title.*'  => 'required|string',
             'album_images' => 'required',
-            'album_images.*' => 'mimes:jpeg,jpg,png'
+            'album_images.*' => 'mimes:jpeg,jpg,png',
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $album_cover = '';
@@ -54,10 +58,21 @@ class AlbumController extends Controller
             $album_cover = $image->store('album_covers', 'uploads');
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+
         $new_album = Album::create([
             'album_title' => $request['album_title'],
             'title_slug' => Str::slug($request->album_title['en']),
-            'album_cover' => $album_cover
+            'album_cover' => $album_cover,
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         $imagename = '';
@@ -121,7 +136,11 @@ class AlbumController extends Controller
             $this->validate($request, [
                 'album_title'    => 'required|array',
                 'album_title.*'  => 'required|string',
-                'album_cover' => 'mimes:png,jpg,jpeg'
+                'album_cover' => 'mimes:png,jpg,jpeg',
+                'meta_title'  => '',
+                'meta_keywords'  => '',
+                'meta_description'  => '',
+                'og_image' => 'mimes:png,jpg,jpeg',
             ]);
 
             $album_cover = '';
@@ -136,10 +155,25 @@ class AlbumController extends Controller
                 $album_cover = $album->album_cover;
             }
 
+            $og_image = '';
+            if($request->hasfile('og_image'))
+            {
+                $image = $request->file('og_image');
+                $og_image = $image->store('og_image', 'uploads');
+            }
+            else
+            {
+                $og_image = $album->og_image;
+            }
+
             $album->update([
                 'album_title' => $request['album_title'],
                 'title_slug' => Str::slug($request->album_title['en']),
-                'album_cover' => $album_cover
+                'album_cover' => $album_cover,
+                'meta_title' => $request['meta_title'],
+                'meta_keywords' => $request['meta_keywords'],
+                'meta_description' => $request['meta_description'],
+                'og_image' => $og_image,
             ]);
 
             return redirect()->route('album.index')->with('success', 'Album is updated successfully.');

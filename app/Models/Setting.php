@@ -17,6 +17,7 @@ class Setting extends Model
         'district_no',
         'local_address',
         'company_logo',
+        'footer_logo',
         'company_favicon',
         'pan_vat',
         'projects_completed',
@@ -35,7 +36,12 @@ class Setting extends Model
         'opening_time',
         'closing_time',
 
-        'map_url'
+        'map_url',
+
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'og_image'
     ];
 
     public function province()

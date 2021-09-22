@@ -53,7 +53,12 @@ class MenuController extends Controller
             'menu_category' => 'required',
             'main_child' => 'required',
             'parent_id' => '',
-            'show_in' => ''
+            'show_in' => '',
+
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $parent_id = NULL;
@@ -67,6 +72,13 @@ class MenuController extends Controller
             $show_in = $request['show_in'];
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+
         $new_menu = Menu::create([
             'name' => $request['name'],
             'slug' => Str::slug($request->name['en']),
@@ -74,7 +86,11 @@ class MenuController extends Controller
             'category_slug' => $request['menu_category'],
             'main_child' => $request['main_child'],
             'parent_id' => $parent_id,
-            'header_footer' => $show_in
+            'header_footer' => $show_in,
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         $new_menu->save();
@@ -115,6 +131,7 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $menu = Menu::findorFail($id);
         $this->validate($request, [
             'name'    => 'required|array',
@@ -122,7 +139,11 @@ class MenuController extends Controller
             'menu_category' => 'required',
             'main_child' => 'required',
             'parent_id' => '',
-            'show_in' => ''
+            'show_in' => '',
+            'meta_title'  => '',
+            'meta_keywords'  => '',
+            'meta_description'  => '',
+            'og_image' => 'mimes:png,jpg,jpeg',
         ]);
 
         $parent_id = NULL;
@@ -136,13 +157,28 @@ class MenuController extends Controller
             $show_in = $request['show_in'];
         }
 
+        $og_image = '';
+        if($request->hasfile('og_image'))
+        {
+            $image = $request->file('og_image');
+            $og_image = $image->store('og_image', 'uploads');
+        }
+        else
+        {
+            $og_image = $menu->og_image;
+        }
+
         $menu->update([
             'name' => $request['name'],
             'slug' => Str::slug($request->name['en']),
             'category_slug' => $request['menu_category'],
             'main_child' => $request['main_child'],
             'parent_id' => $parent_id,
-            'header_footer' => $show_in
+            'header_footer' => $show_in,
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+            'meta_description' => $request['meta_description'],
+            'og_image' => $og_image,
         ]);
 
         return redirect()->route('menu.index')->with('success', 'Menu information is updated successfully.');

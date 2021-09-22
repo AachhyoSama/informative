@@ -24,6 +24,11 @@ class CreateNewsTable extends Migration
             $table->string('author');
             $table->integer('view_count');
             $table->boolean('news_blogs');
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->longText('meta_description')->nullable();
+            $table->string('og_image')->nullable();
             $table->timestamps();
         });
     }

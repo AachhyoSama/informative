@@ -67,3 +67,4 @@ function getLangValue($value)
         $calender = new NepaliCalendar();
         return $calender->ENG_TO_NEP_NUM($number);
     }
+

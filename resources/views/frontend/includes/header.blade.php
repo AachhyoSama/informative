@@ -5,7 +5,7 @@
             <div class="th-left">
                 <ul>
                     <li><i class="las la-envelope-open-text"></i> {{ $setting->email }}</li>
-                    <li><i class="las la-phone-volume"></i> {{ __('index.contact.telecode') }} {{ getLangValue($setting->contact_no) }}</li>
+                    <li><i class="las la-phone-volume"></i> {{ getLangValue($setting->contact_no) }}</li>
                 </ul>
             </div>
             <div class="th-right">

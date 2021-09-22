@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
-
+@section('meta')
+    @include('frontend.includes.meta')
+@endsection
 @section('content')
     <!-- Banner -->
     <section class="banner pt pb" style="background-image: url({{ asset('frontend/img/banner.jpg') }});">

@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="footer-contact">
-                    <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->company_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
+                    <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->footer_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
                     <ul>
                         <li><a href="{{ $setting->facebook }}" target="_blank"><i class="lab la-facebook-f"></i></a></li>
                         <li><a href="{{ $setting->youtube }}" target="_blank"><i class="lab la-youtube"></i></a></li>
@@ -53,7 +53,7 @@
                                 </li>
                                 <li>
                                     <i class="flaticon-phone-call"></i>
-                                    <span>{{ __('index.contact.telecode') }} {{ getLangValue($setting->contact_no) }}</span>
+                                    <span> {{ getLangValue($setting->contact_no) }}</span>
                                 </li>
                                 <li>
                                     <i class="flaticon-message"></i>
