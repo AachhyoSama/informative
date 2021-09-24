@@ -6,67 +6,67 @@
 @section('content')
     @if ($advertisement->is_show == 1)
         <!-- Skip Ads -->
-    <div class="skip-ads-section">
-        <div class="skip-ads-col ads-desktop">
-            <div class="skip-ads">
-                <div class="container">
-                    <div class="skip-ad-wrap">
-                        @if (session('success'))
-                            <div class="col-sm-12">
-                                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
+        <div class="skip-ads-section">
+            <div class="skip-ads-col ads-desktop">
+                <div class="skip-ads">
+                    <div class="container">
+                        <div class="skip-ad-wrap">
+                            @if (session('success'))
+                                <div class="col-sm-12">
+                                    <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                    </div>
                                 </div>
-                            </div>
-                        @endif
-                        @if (session('error'))
-                            <div class="col-sm-12">
-                                <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-                                    {{ session('error') }}
+                            @endif
+                            @if (session('error'))
+                                <div class="col-sm-12">
+                                    <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                                        {{ session('error') }}
+                                    </div>
                                 </div>
+                            @endif
+                            <div class="skip-logo">
+                                <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->company_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
                             </div>
-                        @endif
-                        <div class="skip-logo">
-                            <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->company_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
+                            <a href="javascript:void(0);">
+                                <img src="{{ Storage::disk('uploads')->url($advertisement->opening_advertisement) }}" alt="{{ $advertisement->opening_advertisement }}">
+                                <button class="skip-ads-btn">Skip</button>
+                            </a>
                         </div>
-                        <a href="javascript:void(0);">
-                            <img src="{{ Storage::disk('uploads')->url($advertisement->opening_advertisement) }}" alt="{{ $advertisement->opening_advertisement }}">
-                            <button class="skip-ads-btn">Skip</button>
-                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="skip-ads-col ads-mobile">
+                <div class="skip-ads">
+                    <div class="container">
+                        <div class="skip-ad-wrap">
+                            @if (session('success'))
+                                <div class="col-sm-12">
+                                    <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session('error'))
+                                <div class="col-sm-12">
+                                    <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                                        {{ session('error') }}
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="skip-logo">
+                                <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->company_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
+                            </div>
+                            <a href="javascript:void(0);">
+                                <img src="{{ Storage::disk('uploads')->url($advertisement->opening_advertisement) }}" alt="{{ $advertisement->opening_advertisement }}">
+                                <button class="skip-ads-btn">Skip</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="skip-ads-col ads-mobile">
-            <div class="skip-ads">
-                <div class="container">
-                    <div class="skip-ad-wrap">
-                        @if (session('success'))
-                            <div class="col-sm-12">
-                                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('error'))
-                            <div class="col-sm-12">
-                                <div class="alert  alert-danger alert-dismissible fade show" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            </div>
-                        @endif
-                        <div class="skip-logo">
-                            <a href="{{ route('index') }}"><img src="{{ Storage::disk('uploads')->url($setting->company_logo) }}" alt="{{ $setting->company_name['en'] }}"></a>
-                        </div>
-                        <a href="javascript:void(0);">
-                            <img src="{{ Storage::disk('uploads')->url($advertisement->opening_advertisement) }}" alt="{{ $advertisement->opening_advertisement }}">
-                            <button class="skip-ads-btn">Skip</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Skip Ads End -->
+        <!-- Skip Ads End -->
     @endif
     <!-- Slider -->
     <section class="slider">

@@ -88,7 +88,7 @@
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             @foreach ($child_menus as $child_menu)
-                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $child_menu->category_slug) }}">{{ $child_menu->name }}</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $child_menu->category_slug) }}">{{ $child_menu->name['en'] }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -194,7 +194,7 @@
                         </a>
                         <ul>
                             @foreach ($child_menus as $child_menu)
-                                <li><a href="{{ route('pageSlug', $child_menu->category_slug) }}">{{ $child_menu->name }}</a></li>
+                                <li><a href="{{ route('pageSlug', $child_menu->category_slug) }}">{{ $child_menu->name['en'] }}</a></li>
                             @endforeach
                         </ul>
                     </li>
