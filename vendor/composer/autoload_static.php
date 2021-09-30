@@ -629,6 +629,7 @@ class ComposerStaticInitc2448e82fd0706c11b3027d8d362e5e4
         'App\\Models\\MissionMessages' => __DIR__ . '/../..' . '/app/Models/MissionMessages.php',
         'App\\Models\\News' => __DIR__ . '/../..' . '/app/Models/News.php',
         'App\\Models\\Partners' => __DIR__ . '/../..' . '/app/Models/Partners.php',
+        'App\\Models\\PopupNotices' => __DIR__ . '/../..' . '/app/Models/PopupNotices.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',
         'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',
         'App\\Models\\Slider' => __DIR__ . '/../..' . '/app/Models/Slider.php',

@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="team-detail-wrap">
-                                                <img src="{{ Storage::disk('uploads')->url($member->profile_photo) }}" alt="{{ getLangValue($member->name) }}" style="max-height: 350px;">
+                                                <img src="{{ Storage::disk('uploads')->url($member->profile_photo) }}" alt="{{ getLangValue($member->name) }}" style="max-height: 450px;">
                                                 <ul class="team-detail-list">
                                                     <li>
                                                         <b>{{ __('index.index.table_name') }}:</b>

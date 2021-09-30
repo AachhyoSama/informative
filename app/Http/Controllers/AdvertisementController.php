@@ -72,43 +72,39 @@ class AdvertisementController extends Controller
     {
         $advertisement = Advertisement::findorFail($id);
         $this->validate($request, [
-            'opening_advertisement' => 'mimes:png,jpg,jpeg,gif',
-            'opening_advertisement_url' => 'required',
-            'is_show' => '',
-
-            'header_advertisement' => 'mimes:png,jpg,jpeg,gif',
+            'header_advertisement' => '',
             'header_advertisement_url' => 'required',
 
-            'middle_ad_one' => 'mimes:png,jpg,jpeg,gif',
+            'middle_ad_one' => '',
             'middle_ad_one_url' => 'required',
 
-            'middle_ad_two' => 'mimes:png,jpg,jpeg,gif',
+            'middle_ad_two' => '',
             'middle_ad_two_url' => 'required',
 
-            'middle_ad_three' => 'mimes:png,jpg,jpeg,gif',
+            'middle_ad_three' => '',
             'middle_ad_three_url' => 'required',
 
-            'middle_ad_four' => 'mimes:png,jpg,jpeg,gif',
+            'middle_ad_four' => '',
             'middle_ad_four_url' => 'required',
 
-            'main_advertisement' => 'mimes:png,jpg,jpeg,gif',
+            'main_advertisement' => '',
             'main_advertisement_url' => 'required'
         ]);
 
-        $show = 0;
-        if($request['is_show'] == 1)
-        {
-            $show = $show + 1;
-        }
+        // $show = 0;
+        // if($request['is_show'] == 1)
+        // {
+        //     $show = $show + 1;
+        // }
 
-        $opening_advertisement = '';
-        if($request->hasfile('opening_advertisement'))
-        {
-            $image = $request->file('opening_advertisement');
-            $opening_advertisement = $image->store('advertisement', 'uploads');
-        }else {
-            $opening_advertisement = $advertisement->opening_advertisement;
-        }
+        // $opening_advertisement = '';
+        // if($request->hasfile('opening_advertisement'))
+        // {
+        //     $image = $request->file('opening_advertisement');
+        //     $opening_advertisement = $image->store('advertisement', 'uploads');
+        // }else {
+        //     $opening_advertisement = $advertisement->opening_advertisement;
+        // }
 
         $header_advertisement = '';
         if($request->hasfile('header_advertisement'))
@@ -165,10 +161,6 @@ class AdvertisementController extends Controller
         }
 
         $advertisement->update([
-            'opening_advertisement' => $opening_advertisement,
-            'opening_advertisement_url' => $request['opening_advertisement_url'],
-            'is_show' => $show,
-
             'header_advertisement' => $header_advertisement,
             'header_advertisement_url' => $request['header_advertisement_url'],
 

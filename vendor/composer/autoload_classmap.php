@@ -61,6 +61,7 @@ return array(
     'App\\Models\\MissionMessages' => $baseDir . '/app/Models/MissionMessages.php',
     'App\\Models\\News' => $baseDir . '/app/Models/News.php',
     'App\\Models\\Partners' => $baseDir . '/app/Models/Partners.php',
+    'App\\Models\\PopupNotices' => $baseDir . '/app/Models/PopupNotices.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
     'App\\Models\\Setting' => $baseDir . '/app/Models/Setting.php',
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',

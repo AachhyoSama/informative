@@ -14,6 +14,7 @@ use App\Http\Controllers\MembershipBenefitsController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PartnersController;
+use App\Http\Controllers\PopUpNoticesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SubscribersController;
@@ -68,6 +69,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('benefits', MembershipBenefitsController::class)->middleware(['auth:sanctum', 'verified']);
 
     Route::resource('advertisements', AdvertisementController::class)->middleware(['auth:sanctum', 'verified']);
+    Route::resource('popupnotice', PopUpNoticesController::class)->middleware(['auth:sanctum', 'verified']);
 
     Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'verified']);
 

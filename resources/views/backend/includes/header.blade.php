@@ -65,7 +65,7 @@
       </li>
 
       <li>
-        <a class="nav-link" href="https://cakkailali.org.np/" target="_blank">
+        <a class="nav-link" href="{{ env('APP_URL') }}" target="_blank">
           <i class="fas fa-globe"></i>
         </a>
       </li>

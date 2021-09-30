@@ -15,6 +15,7 @@ use App\Models\MenuCategory;
 use App\Models\MissionMessages;
 use App\Models\News;
 use App\Models\Partners;
+use App\Models\PopupNotices;
 use App\Models\Setting;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Storage;
@@ -32,6 +33,7 @@ class FrontController extends Controller
         $members = Members::orderBy('in_order', 'asc')->take(1)->get();
         $albumForIndex = Album::latest()->take(7)->get();
         $partners = Partners::latest()->take(8)->get();
+        $popupnotices = PopupNotices::where('status', 1)->get();
         $features = Bullets::latest()->take(4)->get();
         $member_benefit = MembershipBenefits::first();
         $advertisement = Advertisement::first();
@@ -49,7 +51,7 @@ class FrontController extends Controller
             'og_site_name' => $setting->company_name['en'],
         ];
 
-        return view('frontend.index', compact('meta', 'sliders', 'advertisement', 'member_benefit', 'features', 'partners', 'albumForIndex', 'blogs_index', 'members', 'setting', 'mission_vision', 'first_slider', 'news_index'));
+        return view('frontend.index', compact('meta', 'sliders', 'advertisement', 'popupnotices', 'member_benefit', 'features', 'partners', 'albumForIndex', 'blogs_index', 'members', 'setting', 'mission_vision', 'first_slider', 'news_index'));
     }
 
     public function pageSlug($slug)

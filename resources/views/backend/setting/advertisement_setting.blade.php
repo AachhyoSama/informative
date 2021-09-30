@@ -123,7 +123,8 @@
                                         @csrf
                                         @method("PUT")
                                         <div class="row">
-                                            <div class="col-md-12 text-center">
+
+                                            {{-- <div class="col-md-12 text-center">
                                                 <hr>
                                                 <h3>Opening Advertisement</h3>
                                                 <hr>
@@ -162,7 +163,7 @@
                                             <div class="col-md-12">
                                                 <label for="">Current Image:</label> <br>
                                                 <img id="opening_advertisement_output" style="height: 450px; width:850px;" src="{{ Storage::disk('uploads')->url($advertisement->opening_advertisement) }}">
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-md-12 text-center">
                                                 <hr>
@@ -315,38 +316,6 @@
                                                     <input type="text" class="form-control" name="middle_ad_four_url" placeholder="Advertisement URL.." value="{{ $advertisement->middle_ad_four_url }}">
                                                     <p class="text-danger">
                                                         {{ $errors->first('middle_ad_four_url') }}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-12 text-center">
-                                                <hr>
-                                                <h3>Middle Advertisement (Third)</h3>
-                                                <hr>
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label for="middle_ad_three">Select Image for Ad:</label>
-                                                    <input type="file" class="form-control" name="middle_ad_three" id="middle_ad_three" onchange="loadThird(event)">
-                                                    <p class="text-danger">
-                                                        {{ $errors->first('middle_ad_three') }}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-7">
-                                                <label for="">Current Image:</label> <br>
-                                                <img id="middle_ad_three_output" style="height: 80px; width:650px;" src="{{ Storage::disk('uploads')->url($advertisement->middle_ad_three) }}">
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label for="">Advertisement URL:</label>
-                                                    <input type="text" class="form-control" name="middle_ad_three_url" placeholder="Advertisement URL.." value="{{ $advertisement->middle_ad_three_url }}">
-                                                    <p class="text-danger">
-                                                        {{ $errors->first('middle_ad_three_url') }}
                                                     </p>
                                                 </div>
                                             </div>

@@ -27,7 +27,7 @@
 
         <li class="nav-item">
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <a href="https://cakkailali.org.np" target="_blank" class="nav-link">
+                <a href="{{ env('APP_URL') }}" target="_blank" class="nav-link">
                     <i class="nav-icon fas fa-globe"></i>
                     <p>
                         Website
@@ -101,6 +101,13 @@
             <a href="{{ route('slider.index') }}" class="nav-link">
               <i class="fas fa-film nav-icon"></i>
               <p>Sliders</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('popupnotice.index') }}" class="nav-link">
+              <i class="fas fa-list nav-icon"></i>
+              <p>Pop up Notices</p>
             </a>
           </li>
 
