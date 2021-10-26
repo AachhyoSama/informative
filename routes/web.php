@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MailMessagesController;
 use App\Http\Controllers\MembercategoryController;
+use App\Http\Controllers\MemberPDFController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\MembershipBenefitsController;
 use App\Http\Controllers\MenuController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\PopUpNoticesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SubscribersController;
 use App\Http\Controllers\UserController;
 use App\Models\MailMessages;
@@ -80,6 +82,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('blogs', BlogsController::class)->middleware(['auth:sanctum', 'verified']);
 
     Route::resource('member', MembersController::class)->middleware(['auth:sanctum', 'verified']);
+    Route::resource('memberpdf', MemberPDFController::class)->middleware(['auth:sanctum', 'verified']);
 
     Route::resource('download', DownloadsController::class)->middleware(['auth:sanctum', 'verified']);
 
@@ -90,11 +93,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::delete('albumImage/{id}', [AlbumController::class, 'deleteAlbumImage'])->name('deleteAlbumImage');
 
     Route::resource('memberCategory', MembercategoryController::class)->middleware(['auth:sanctum', 'verified']);
+    Route::resource('subCategory', SubCategoryController::class)->middleware(['auth:sanctum', 'verified']);
     Route::get('commiteeCategory', [MembercategoryController::class, 'commiteeCategory'])->name('commiteeCategory')->middleware(['auth:sanctum', 'verified']);
 });
 
 Route::post('updateMenu', [MenuController::class, 'updateMenuOrder'])->name('updateMenuOrder');
 Route::post('updateMember', [MembersController::class, 'updateMemberOrder'])->name('updateMemberOrder');
+Route::get('getSubCategory/{id}', [MembersController::class, 'getSubCategory'])->name('getSubCategory');
 
 // Frontend
 

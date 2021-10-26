@@ -162,8 +162,8 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="member_category">Member Caategory:</label>
-                                                    <select name="member_category" class="form-control">
+                                                    <label for="member_category">Member Category:</label>
+                                                    <select name="member_category" class="form-control member">
                                                         <option value="">--Select an option--</option>
                                                         @foreach ($memberCategories as $memberCategory)
                                                             <option value="{{ $memberCategory->id }}">{{ $memberCategory->category_name['en'] }}</option>
@@ -177,8 +177,20 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="commitee_category">Commitee Caategory:</label>
-                                                    <select name="commitee_category" class="form-control">
+                                                    <label for="member_subcategory">Member Subcategory:</label>
+                                                    <select name="member_subcategory" class="form-control" id="member_subcategory">
+                                                        <option value="">--Select a member first--</option>
+                                                    </select>
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('member_subcategory') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="commitee_category">Commitee Category:</label>
+                                                    <select name="commitee_category" class="form-control committee">
                                                         <option value="">--Select an option--</option>
                                                         @foreach ($commiteeCategories as $commiteeCategory)
                                                             <option value="{{ $commiteeCategory->id }}">{{ $commiteeCategory->category_name['en'] }}</option>
@@ -186,6 +198,18 @@
                                                     </select>
                                                     <p class="text-danger">
                                                         {{ $errors->first('commitee_category') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="committee_subcategory">Committee Subcategory:</label>
+                                                    <select name="committee_subcategory" class="form-control" id="committee_subcategory">
+                                                        <option value="">--Select an committee first--</option>
+                                                    </select>
+                                                    <p class="text-danger">
+                                                        {{ $errors->first('committee_subcategory') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -306,6 +330,52 @@
             URL.revokeObjectURL(output.src)
         }
     };
+
+    $('.member').change(function() {
+        var member_id = $(this).children("option:selected").val();
+        function fillSelect(subCategory) {
+            document.getElementById("member_subcategory").innerHTML =
+            subCategory.reduce((tmp, x) => `${tmp}<option value='${x.id}'>${x.sub_category_name['en']}</option>`, '');
+        }
+        function fetchRecords(member_id) {
+            var uri = "{{ route('getSubCategory', ':id') }}";
+            uri = uri.replace(':id', member_id);
+            $.ajax({
+                url: uri,
+                type: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    var subCategory = response;
+                    fillSelect(subCategory);
+                }
+            });
+        }
+        fetchRecords(member_id);
+    })
+
+    $('.committee').change(function() {
+        var committee_id = $(this).children("option:selected").val();
+        function fillSelect(subCategory) {
+            document.getElementById("committee_subcategory").innerHTML =
+            subCategory.reduce((tmp, x) => `${tmp}<option value='${x.id}'>${x.sub_category_name['en']}</option>`, '');
+        }
+        function fetchRecords(committee_id) {
+            var uri = "{{ route('getSubCategory', ':id') }}";
+            uri = uri.replace(':id', committee_id);
+            $.ajax({
+                url: uri,
+                type: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    var subCategory = response;
+                    fillSelect(subCategory);
+                }
+            });
+        }
+        fetchRecords(committee_id);
+    })
 </script>
 
 @endpush

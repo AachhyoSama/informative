@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Membercategory;
 use App\Models\Members;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -121,7 +122,6 @@ class MembercategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $memberCategory = Membercategory::findorFail($id);
         $this->validate($request, [
             'category_name'    => 'required|array',
@@ -184,9 +184,16 @@ class MembercategoryController extends Controller
         $memberCategory = Membercategory::findorFail($id);
         $members_category = Members::where('member_id', $id)->get();
         $commitee_category = Members::where('commitee_id', $id)->get();
+
+        $sub_category = SubCategory::where('category_id', $memberCategory->id)->get();
         if (count($members_category) > 0 || count($commitee_category) > 0) {
             return redirect()->back()->with('error', 'There are members in this category. Cant delete.');
         }
+
+        if (count($sub_category) > 0) {
+            return redirect()->back()->with('error', 'This category has sub categories. Cant delete.');
+        }
+
         $memberCategory->delete();
         return redirect()->back()->with('success', 'New Category is deleted successfully.');
     }

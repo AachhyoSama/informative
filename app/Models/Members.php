@@ -18,6 +18,8 @@ class Members extends Model
         'position',
         'member_id',
         'commitee_id',
+        'member_subcategory_id',
+        'committee_subcategory_id',
         'details',
 
         'facebook',

@@ -2,15 +2,28 @@
 @section('meta')
     @include('frontend.includes.meta')
 @endsection
+
 @section('content')
     <!-- Banner -->
     <section class="banner pt pb" style="background-image: url({{ asset('frontend/img/banner.jpg') }});">
         <div class="container">
-            <h1>{{ getLangValue($member_category->category_name) }}</h1>
+            <h1>
+                @if ($member_category)
+                    {{ getLangValue($member_category->category_name) }}
+                @else
+                    {{ getLangValue($member_subcategory->sub_category_name) }}
+                @endif
+            </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">{{ __('index.top.home') }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ getLangValue($member_category->category_name) }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @if ($member_category)
+                            {{ getLangValue($member_category->category_name) }}
+                        @else
+                            {{ getLangValue($member_subcategory->sub_category_name) }}
+                        @endif
+                    </li>
                 </ol>
             </nav>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Membercategory;
 use App\Models\Members;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -45,9 +46,9 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $member_count = Members::orderBy('in_order', 'desc')->first();
         $member_order = $member_count->in_order + 1;
+
         $this->validate($request, [
             'profile_photo' => 'required|mimes:png,jpg,jpeg',
             'name'    => 'required|array',
@@ -61,6 +62,8 @@ class MembersController extends Controller
             'position.*'  => 'required|string',
             'member_category' => '',
             'commitee_category' => '',
+            'member_subcategory' => '',
+            'committee_subcategory' => '',
             'details'    => '',
             'details.*'  => '',
 
@@ -87,6 +90,8 @@ class MembersController extends Controller
             'position' => $request['position'],
             'member_id' => $request['member_category'],
             'commitee_id' => $request['commitee_category'],
+            'member_subcategory_id' => $request['member_subcategory'],
+            'committee_subcategory_id' => $request['committee_subcategory'],
             'details' => $request['details'],
 
             'facebook' => $request['facebook'],
@@ -99,7 +104,6 @@ class MembersController extends Controller
         ]);
 
         $new_member->save();
-
         return redirect()->route('member.index')->with('success', 'Member information saved successfully.');
     }
 
@@ -123,9 +127,11 @@ class MembersController extends Controller
     public function edit($id)
     {
         $existing_member = Members::findorFail($id);
+        $member_subcategories = SubCategory::where('category_id', $existing_member->member_id)->get();
+        $committee_subcategories = SubCategory::where('category_id', $existing_member->commitee_id)->get();
         $commiteeCategories = Membercategory::latest()->where('member_commities', 1)->where('is_active', 1)->get();
         $memberCategories = Membercategory::latest()->where('member_commities', 0)->where('is_active', 1)->get();
-        return view('backend.members.edit', compact('existing_member', 'memberCategories', 'commiteeCategories'));
+        return view('backend.members.edit', compact('existing_member', 'memberCategories', 'commiteeCategories', 'member_subcategories', 'committee_subcategories'));
     }
 
     /**
@@ -151,6 +157,8 @@ class MembersController extends Controller
             'position.*'  => 'required|string',
             'member_category' => '',
             'commitee_category' => '',
+            'member_subcategory' => '',
+            'committee_subcategory' => '',
             'details'    => '',
             'details.*'  => '',
 
@@ -182,6 +190,8 @@ class MembersController extends Controller
             'position' => $request['position'],
             'member_id' => $request['member_category'],
             'commitee_id' => $request['commitee_category'],
+            'member_subcategory_id' => $request['member_subcategory'],
+            'committee_subcategory_id' => $request['committee_subcategory'],
             'details' => $request['details'],
 
             'facebook' => $request['facebook'],
@@ -224,5 +234,11 @@ class MembersController extends Controller
         }
 
         return true;
+    }
+
+    public function getSubCategory($id)
+    {
+        $subcategories = SubCategory::where('category_id', $id)->get();
+        return response()->json($subcategories);
     }
 }

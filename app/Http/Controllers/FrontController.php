@@ -8,16 +8,17 @@ use App\Models\AlbumImages;
 use App\Models\Bullets;
 use App\Models\Downloads;
 use App\Models\Membercategory;
+use App\Models\MemberPDF;
 use App\Models\Members;
 use App\Models\MembershipBenefits;
 use App\Models\Menu;
-use App\Models\MenuCategory;
 use App\Models\MissionMessages;
 use App\Models\News;
 use App\Models\Partners;
 use App\Models\PopupNotices;
 use App\Models\Setting;
 use App\Models\Slider;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Storage;
 
 class FrontController extends Controller
@@ -201,6 +202,7 @@ class FrontController extends Controller
             $album = Album::where('title_slug', $slug)->first();
             $news = News::where('slug', $slug)->first();
             $member_category = Membercategory::where('slug', $slug)->first();
+            $member_subcategory = SubCategory::where('slug', $slug)->first();
 
             if ($album)
             {
@@ -265,123 +267,71 @@ class FrontController extends Controller
                 if($member_category->member_commities == 0)
                 {
                     $members = Members::orderBy('in_order', 'asc')->where('member_id', $member_category->id)->get();
-                    return view('frontend.team_members', compact('members', 'member_category', 'meta'));
+                    $member_subcategory = null;
+                    $memberPDFs = MemberPDF::where('member_id', $member_category->id)->get();
+                    if (count($memberPDFs) > 0) {
+                        return view('frontend.membersPDF', compact('memberPDFs', 'member_category', 'meta', 'member_subcategory'));
+                    } else {
+                        return view('frontend.team_members', compact('members', 'member_category', 'meta', 'member_subcategory'));
+                    }
                 }
                 elseif($member_category->member_commities == 1)
                 {
                     $commities = Members::orderBy('in_order', 'asc')->where('commitee_id', $member_category->id)->get();
-                    return view('frontend.committee_members', compact('commities', 'member_category', 'meta'));
+                    $member_subcategory = null;
+                    $memberPDFs = MemberPDF::where('committee_id', $member_category->id)->get();
+                    if (count($memberPDFs) > 0) {
+                        return view('frontend.membersPDF', compact('memberPDFs', 'member_category', 'meta', 'member_subcategory'));
+                    } else {
+                        return view('frontend.committee_members', compact('commities', 'member_category', 'meta', 'member_subcategory'));
+                    }
                 }
-            }else
+            }
+            else if($member_subcategory)
+            {
+                $setting = Setting::first();
+                $about_part = strip_tags(getLangValue($setting->aboutus));
+                $description = substr($about_part, 0 ,200). "..";
+
+                $meta = [
+                    'meta_title' => $member_subcategory->meta_title ? $member_subcategory->meta_title : $member_subcategory->sub_category_name['en'],
+                    'meta_keyword' => $member_subcategory->meta_keywords ? $member_subcategory->meta_keywords : $member_subcategory->sub_category_name['en'],
+                    'meta_description' => $member_subcategory->meta_description ? $member_subcategory->meta_description : $description,
+                    'meta_keyphrase' => $member_subcategory->meta_keywords ? $member_subcategory->meta_keywords : $member_subcategory->sub_category_name['en'],
+                    'og_image' => Storage::disk('uploads')->url($member_subcategory->og_image ? $member_subcategory->og_image : $setting->company_favicon),
+                    'og_url' => route('pageSlug', $slug),
+                    'og_site_name' => $setting->company_name['en'],
+                ];
+
+                if($member_subcategory->category->member_commities == 0)
+                {
+                    $members = Members::orderBy('in_order', 'asc')->where('member_subcategory_id', $member_subcategory->id)->get();
+                    $member_category = null;
+                    $memberPDFs = MemberPDF::where('member_subcategory_id', $member_subcategory->id)->get();
+
+                    if (count($memberPDFs) > 0) {
+                        return view('frontend.membersPDF', compact('memberPDFs', 'member_category', 'meta', 'member_subcategory'));
+                    } else {
+                        return view('frontend.team_members', compact('members', 'member_subcategory', 'meta', 'member_category'));
+                    }
+                }
+                elseif($member_subcategory->category->member_commities == 1)
+                {
+                    $commities = Members::orderBy('in_order', 'asc')->where('committee_subcategory_id', $member_subcategory->id)->get();
+                    $member_category = null;
+                    $memberPDFs = MemberPDF::where('committee_subcategory_id', $member_subcategory->id)->get();
+
+                    if (count($memberPDFs) > 0) {
+                        return view('frontend.membersPDF', compact('memberPDFs', 'member_category', 'meta', 'member_subcategory'));
+                    } else {
+                        return view('frontend.committee_members', compact('commities', 'member_subcategory', 'meta', 'member_category'));
+                    }
+                }
+            }
+            else
             {
                 return redirect()->route('index');
             }
         }
     }
-
-    // protected function getMetaData($data = null)
-    // {
-    //     $website = Setting::first();
-
-    //     $meta = [
-    //         'meta_title' => $data->company_name['en'] ? $data->company_name['en'] : 'contractor-association-od-kailali',
-    //         'meta_keyword' => $data->company_name['en'] ? $data->company_name['en'] : 'contractor-association-od-kailali',
-    //         'meta_description' => $data->company_name['en'] ? $data->company_name['en'] : 'contractor-association-od-kailali',
-    //         'meta_keyphrase' => $data->company_name['en'] ? $data->company_name['en'] : 'contractor-association-od-kailali',
-    //         'og_image' => $data->company_favicon ? Storage::disk('uploads')->url($data->company_favicon) : Storage::disk('uploads')->url($website->company_favicon),
-    //         'og_url' => route('index'),
-    //         'og_site_name' => $website->name,
-    //     ];
-
-    //     return $meta;
-    // }
-
-    // public function subMenu($slug, $id)
-    // {
-    //     if ($slug == "members") {
-    //         $member_commitee = Menu::findorFail($id);
-    //         $members = Members::latest()->where('member_id', $id)->get();
-    //         return view('frontend.team_members', compact('members', 'member_commitee'));
-    //     }
-    //     else if($slug == "committee")
-    //     {
-    //         $member_commitee = Menu::findorFail($id);
-    //         $commities = Members::latest()->where('commitee_id', $id)->get();
-    //         return view('frontend.committee_members', compact('commities', 'member_commitee'));
-    //     }
-    // }
-
-    // public function aboutus()
-    // {
-    //     $setting = Setting::first();
-    //     $mission_vision = MissionMessages::first();
-    //     $member_benefit = MembershipBenefits::first();
-    //     return view('frontend.aboutus', compact('setting', 'member_benefit', 'mission_vision'));
-    // }
-
-    // public function contact()
-    // {
-    //     $setting = Setting::first();
-    //     return view('frontend.contact', compact('setting'));
-    // }
-
-    // public function newsPage()
-    // {
-    //     $news = News::latest()->where('news_blogs', 0)->paginate(4);
-    //     $features = Bullets::latest()->take(4)->get();
-    //     return view('frontend.news', compact('news', 'features'));
-    // }
-
-    // public function blogsPage()
-    // {
-    //     $blogs = News::latest()->where('news_blogs', 1)->paginate(6);
-    //     return view('frontend.blogs', compact('blogs'));
-    // }
-
-    // public function gallery()
-    // {
-    //     $albums = Album::latest()->get();
-    //     return view('frontend.gallery', compact('albums'));
-    // }
-
-    // public function gallery_details($slug)
-    // {
-    //     $album = Album::where('title_slug', $slug)->first();
-    //     $album_images = AlbumImages::latest()->where('album_id', $album->id)->get();
-    //     return view('frontend.gallery_details', compact('album', 'album_images'));
-    // }
-
-    // public function news_details($slug)
-    // {
-    //     $news = News::where('slug', $slug)->first();
-    //     $new_view = $news->view_count + 1;
-    //     $news->update([
-    //         'view_count' => $new_view
-    //     ]);
-    //     return view('frontend.news_details', compact('news'));
-    // }
-
-    // public function blogs_details($slug)
-    // {
-    //     $news = News::where('slug', $slug)->first();
-    //     $new_view = $news->view_count + 1;
-    //     $news->update([
-    //         'view_count' => $new_view
-    //     ]);
-    //     return view('frontend.news_details', compact('news'));
-    // }
-
-    // public function members($id)
-    // {
-    //     $member_commitee = Membercategory::findorFail($id);
-    //     $members = Members::latest()->where('member_id', $id)->get();
-    //     return view('frontend.team_members', compact('members', 'member_commitee'));
-    // }
-
-    // public function committee($id)
-    // {
-    //     $member_commitee = Membercategory::findorFail($id);
-    //     $commities = Members::latest()->where('commitee_id', $id)->get();
-    //     return view('frontend.committee_members', compact('commities', 'member_commitee'));
-    // }
 }

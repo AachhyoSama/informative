@@ -144,6 +144,15 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('subCategory.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            Subcategories
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                 <a href="{{ route('member.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -154,6 +163,12 @@
                 <a href="{{ route('member.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add New Member</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('memberpdf.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Upload Member PDF</p>
                 </a>
               </li>
             </ul>

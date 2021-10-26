@@ -33,7 +33,6 @@
     </head>
     <body>
         <div class="wrapper">
-
             <!-- Header -->
             @include('frontend.includes.header')
 
@@ -48,7 +47,6 @@
                 </div>
             </div>
             <!-- Scroll Top End -->
-
         </div>
         <script src="{{ asset('frontend/js/jquery.min.js') }}"></script>
         <script src="{{ asset('frontend/js/jquery-ui.js') }}"></script>

@@ -23,6 +23,8 @@ class CreateMembersTable extends Migration
             $table->string('position');
             $table->integer('member_id')->nullable();
             $table->integer('commitee_id')->nullable();
+            $table->integer('member_subcategory_id')->nullable();
+            $table->integer('committee_subcategory_id')->nullable();
             $table->longText('details');
 
             $table->string('facebook')->nullable();

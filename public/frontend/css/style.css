@@ -407,6 +407,7 @@ a:hover {
     border: none;
     box-shadow: 0px 3px 10px rgb(0 0 0 / 20%);
     border-radius: 0;
+    min-width: 220px;
 }
 
 .dropdown-menu a {
@@ -668,6 +669,27 @@ a:hover {
 #header.active .container{
     padding-left: 0.75rem;
 }
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+    top:0;
+    left:100%;
+}
+.dropdown-menu > li > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-90deg);
+}
+.dropdown-submenu .dropdown-toggle::after {
+    float: right;
+    border-top: .4em solid;
+    border-right: .4em solid transparent;
+    border-left: .4em solid transparent;
+    margin-top: 8px;
+}
 /* Header End */
 
 
@@ -677,7 +699,6 @@ a:hover {
 
 
 /* Mobile Menu */
-
 #mySidenav {
     position: fixed;
     left: 0;
@@ -798,7 +819,7 @@ a:hover {
     width: 100%;
     object-fit: cover;
 }
-.carousel-control-next, 
+.carousel-control-next,
 .carousel-control-prev{
     width: 10%;
     opacity: 1;
@@ -806,7 +827,7 @@ a:hover {
     visibility: hidden;
     transition: ease-in-out .3s;
 }
-.slider:hover .carousel-control-next, 
+.slider:hover .carousel-control-next,
 .slider:hover .carousel-control-prev{
     opacity: 1;
     visibility: visible;
@@ -1480,7 +1501,7 @@ a:hover {
 }
 
 .newsletter-form {
-    position: 
+    position:
     relative;
     width: 700px;
 }
@@ -2046,14 +2067,14 @@ a:hover {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
-    background: rgba(0,0,0,0) linear-gradient(to bottom, 
-        rgba(5,5,5,0) 0, 
-        rgba(0,0,0,0) 0, 
+    background: rgba(0,0,0,0) linear-gradient(to bottom,
+        rgba(5,5,5,0) 0,
+        rgba(0,0,0,0) 0,
         rgba(71,71,71,0) 0,
-        rgba(102,102,102,0) 0, 
+        rgba(102,102,102,0) 0,
         rgba(28,28,28,0) 0,
-        rgba(20,20,20,.59) 32%, 
-        rgba(13,13,13,1) 62%, 
+        rgba(20,20,20,.59) 32%,
+        rgba(13,13,13,1) 62%,
         rgba(3,3,3,1) 100%) repeat scroll 0 0;
 }
 
@@ -2306,4 +2327,7 @@ ul.team-detail-list b {
 .news .pagination {
     margin-top: 30px;
 }
+/* .dropdown-toggle{
+    pointer-events: none;
+} */
 /* Blog Page End */

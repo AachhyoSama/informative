@@ -94,23 +94,53 @@
                                     </li>
                                 @elseif($menu->slug == "members")
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{ getLangValue($menu->name) }}
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             @foreach ($members as $member)
-                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $member->slug) }}">{{ getLangValue($member->category_name) }}</a></li>
+                                                @php
+                                                    $sub_category = App\Models\SubCategory::where('category_id', $member->id)->get();
+                                                @endphp
+
+                                                @if (count($sub_category) > 0)
+                                                    <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#">{{ getLangValue($member->category_name) }}</a>
+                                                        <ul class="dropdown-menu">
+                                                            @foreach ($sub_category as $item)
+                                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $item->slug) }}">{{ getLangValue($item->sub_category_name) }}</a></li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li><a class="dropdown-item" href="{{ route('pageSlug', $member->slug) }}">{{ getLangValue($member->category_name) }}</a></li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </li>
                                 @elseif($menu->slug == "committees")
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{ getLangValue($menu->name) }}
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             @foreach ($committees as $committee)
-                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $committee->slug) }}">{{ getLangValue($committee->category_name) }}</a></li>
+                                                @php
+                                                    $sub_category = App\Models\SubCategory::where('category_id', $committee->id)->get();
+                                                @endphp
+
+                                                @if (count($sub_category) > 0)
+                                                    <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#">{{ getLangValue($committee->category_name) }}</a>
+                                                        <ul class="dropdown-menu">
+                                                            @foreach ($sub_category as $item)
+                                                                <li><a class="dropdown-item" href="{{ route('pageSlug', $item->slug) }}">{{ getLangValue($item->sub_category_name) }}</a></li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li><a class="dropdown-item" href="{{ route('pageSlug', $committee->slug) }}">{{ getLangValue($committee->category_name) }}</a></li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </li>
@@ -120,7 +150,6 @@
                                     </li>
                                 @endif
                             @endforeach
-
                         </ul>
                     </div>
                 </nav>
@@ -184,9 +213,11 @@
     <div class="no-bdr1">
         <ul id="menu1">
             @foreach ($menus as $menu)
+
                 @php
                     $child_menus = \App\Models\Menu::latest()->where('parent_id', $menu->id)->get();
                 @endphp
+
                 @if (count($child_menus) > 0)
                     <li>
                         <a href="#" class="has-arrow">
@@ -199,26 +230,56 @@
                         </ul>
                     </li>
                     @elseif($menu->slug == "members")
-
                         <li>
                             <a class="has-arrow" href="#">
                                 {{ getLangValue($menu->name) }}
                             </a>
                             <ul>
                                 @foreach ($members as $member)
-                                    <li><a href="{{ route('pageSlug', $member->slug) }}">{{ getLangValue($member->category_name) }}</a></li>
+                                    @php
+                                        $sub_category = App\Models\SubCategory::where('category_id', $member->id)->get();
+                                    @endphp
+                                    @if (count($sub_category) > 0)
+                                        <li>
+                                            <a href="#" class="has-arrow">{{ getLangValue($member->category_name) }}</a>
+                                            <ul>
+                                                @foreach ($sub_category as $item)
+                                                    <li>
+                                                        <a href="{{ route('pageSlug', $item->slug) }}">{{ getLangValue($item->sub_category_name) }}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                        <li><a href="{{ route('pageSlug', $member->slug) }}">{{ getLangValue($member->category_name) }}</a></li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </li>
-                        @elseif($menu->slug == "committees")
-
+                    @elseif($menu->slug == "committees")
                         <li>
                             <a class="has-arrow" href="#">
                                 {{ getLangValue($menu->name) }}
                             </a>
                             <ul>
                                 @foreach ($committees as $committee)
-                                    <li><a href="{{ route('pageSlug', $committee->slug) }}">{{ getLangValue($committee->category_name) }}</a></li>
+                                    @php
+                                        $sub_category = App\Models\SubCategory::where('category_id', $committee->id)->get();
+                                    @endphp
+                                    @if (count($sub_category) > 0)
+                                        <li>
+                                            <a href="#" class="has-arrow">{{ getLangValue($committee->category_name) }}</a>
+                                            <ul>
+                                                @foreach ($sub_category as $item)
+                                                    <li>
+                                                        <a href="{{ route('pageSlug', $item->slug) }}">{{ getLangValue($item->sub_category_name) }}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                        <li><a href="{{ route('pageSlug', $committee->slug) }}">{{ getLangValue($committee->category_name) }}</a></li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </li>
